@@ -1,9 +1,14 @@
+/*! TODO: 
+ *
+ * @todo Validate buffer size
+ */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 
 #define FLAGS 2
+#define BUFF_SIZE 100
 
 // Processes es un arreglo de enteros que va a tener unos o ceros depende de que procesos hay que hacer (para evitar multiples strcmp)
 
@@ -86,7 +91,6 @@ int validateArgs(int dim, char * argList[], int processes[], char * flagVals[]){
             
         }
     }
-    printf("Arguments ok!\n");
     return 1;
 }
 
@@ -95,32 +99,30 @@ int main(int argc, char *argv[])
 
     int processes[FLAGS] = {0};
     char * flagVals[FLAGS];
+    char buffer[BUFF_SIZE];
 
     if (!validateArgs(argc, argv, processes, flagVals)){
         return 0;
     }
 
-    // OK SO, HAY QUE HACER STRINGS MAS GRANDES PARA LOS MKDIR Y DEMASES ASI LOS STRCAT ENTRAN, SINO ES UN CAOS Y SEG FAULT PURGATORY
-    // UPDATE: PODEMOS USAR SPRINTF LRPM 
-
-/*
-
-    system(strcat("mkdir ", argv[1]));
-    system(strcat("cd ", argv[1]));
-    system("mkdir src");
+    sprintf(buffer, "mkdir -p %s/src", argv[1]);
+    system(buffer);
 
     for (int i = 0; i < FLAGS; i++){
         if (processes[i]){
             switch (i) {
                 case 0:
-                    system(strcat("mkdir src/", flagVals[0]));
+                    sprintf(buffer, "mkdir %s/src/%s", argv[1], flagVals[0]);
+                    system(buffer);
                     break;
                 case 1:
                     if (processes[0]){
-                        system(strcat(flagVals[1], strcat(flagVals[0], "touch src/")));
+                        sprintf(buffer, "touch %s/src/%s/%s.java", argv[1], flagVals[0], flagVals[1]);
+                        system(buffer);
                     }
                     else {
-                        system(strcat(flagVals[1], "touch src/"));
+                        sprintf(buffer, "touch %s/src/%s.java", argv[1], flagVals[1]);
+                        system(buffer);
                     } 
                     break; 
             
@@ -128,5 +130,4 @@ int main(int argc, char *argv[])
         }
 
     }
-*/
 }
