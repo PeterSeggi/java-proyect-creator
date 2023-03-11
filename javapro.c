@@ -21,7 +21,7 @@ int createProyect(char * proyect, char * package){
 
 void showUsage(){
 
-    printf("Usage: javapro [proyect-name] [options]\n    -p [package-name] : create an empty package inside the src directory\n    -c [class-name] : create an empty java class file in the src or package directories\n");
+    printf("Usage: javapro [proyect-name] [options]\n  Options:\n    -p [package-name] : create an empty package inside the src directory\n    -c [class-name] : create an empty java class file in the src or package directories\n");
 }
 
 
